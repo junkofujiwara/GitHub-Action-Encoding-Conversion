@@ -32,6 +32,8 @@ jobs:
           folder_path_to="folder_to"
           encode_to="sjis"
           commit_message="encode conversion"
+          user_email="you@example.com"
+          user_name="Your Name"
           
           for file in "$folder_path_from"/*; do
               if [ -f "$file" ]; then  
@@ -42,8 +44,8 @@ jobs:
           done
 
           cd "$folder_path_to" 
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "$user_email"
+          git config --global user.name "$user_name"
           git add .
           git commit -m "$commit_message" 
           git push origin main 
