@@ -1,0 +1,49 @@
+# Encode conversion sample workflow 
+
+name: Convert
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "encode"
+  encode:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Execute encode conversion and push generated files to specified folder
+      - name: Encode conversion
+        run: |
+          folder_path_from="folder_from"
+          encode_from="utf8"
+          folder_path_to="folder_to"
+          encode_to="sjis"
+          commit_message="encode conversion"
+          
+          for file in "$folder_path_from"/*; do
+              if [ -f "$file" ]; then  
+                  echo "File Name: $file"  
+                  iconv -c -f $encode_from -t $encode_to $file > "$folder_path_to/$(basename "$file")"
+                  echo "---------------------------------------"  
+              fi
+          done
+
+          cd "$folder_path_to" 
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git add .
+          git commit -m "$commit_message" 
+          git push origin main 
