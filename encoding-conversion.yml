@@ -28,9 +28,9 @@ jobs:
       - name: Encode conversion
         run: |
           folder_path_from="folder_from"
-          encode_from="utf8"
+          encode_from="sjis"
           folder_path_to="folder_to"
-          encode_to="sjis"
+          encode_to="utf8"
           commit_message="encode conversion"
           user_email="you@example.com"
           user_name="Your Name"
